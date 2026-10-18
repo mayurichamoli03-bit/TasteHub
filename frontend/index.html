@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TasteHub — Good Food, Great Mood | Food Ordering</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍔</text></svg>">
+</head>
+<body>
+
+ 
+  <header class="header">
+    <div class="container">
+      <a href="index.html" class="brand-logo">
+        <span class="logo-icon">🍲</span>
+        <span>Taste<span class="accent">Hub</span></span>
+      </a>
+
+     
+      <nav class="nav-links" id="nav-links">
+        <a href="index.html" class="nav-link active">Home</a>
+        <a href="menu.html" class="nav-link">Menu</a>
+        <a href="orders.html" class="nav-link">My Orders</a>
+      </nav>
+
+     
+      <div class="nav-actions">
+        <a href="cart.html" class="cart-btn-link" title="Shopping Cart">
+          <span>🛒</span>
+          <span class="cart-text">Cart</span>
+          <span class="cart-badge" style="display: none;">0</span>
+        </a>
+
+        <div id="nav-auth-container" class="nav-auth-wrap">
+          <a href="login.html" class="nav-link auth-link">Login</a>
+          <a href="signup.html" class="btn btn-primary btn-sm">Sign Up</a>
+        </div>
+
+       
+        <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle navigation menu">
+          ☰
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero-section">
+    <div class="container hero-grid">
+      <div class="hero-content">
+        <div class="hero-badge">⚡ Freshly Prepared & Fast Delivery</div>
+        <h1 class="hero-title">Good Food, <br><span class="highlight">Great Mood</span></h1>
+        <p class="hero-desc">
+          Satisfy your cravings with handcrafted Indian delicacies, cheesy pizzas, gourmet burgers, and fresh bowls cooked to perfection.
+        </p>
+
+       
+        <form class="hero-search-box" id="hero-search-form">
+          <input 
+            type="text" 
+            id="hero-search-input" 
+            placeholder="Search for biryani, burger, pizza, dosa..." 
+            aria-label="Search food dishes"
+          />
+          <button type="submit" class="btn btn-primary">Search Food</button>
+        </form>
+
+      
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <h3>24+</h3>
+            <p>Handcrafted Dishes</p>
+          </div>
+          <div class="hero-stat">
+            <h3>30 min</h3>
+            <p>Average Delivery</p>
+          </div>
+          <div class="hero-stat">
+            <h3>₹0</h3>
+            <p>Free Delivery over ₹500</p>
+          </div>
+        </div>
+      </div>
+
+    
+      <div class="hero-image-wrapper">
+        <img 
+          src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=800&q=80" 
+          alt="Delicious Food Spread" 
+          class="hero-main-img"
+        />
+        <div class="hero-floating-card">
+          <span class="floating-card-icon">🔥</span>
+          <div class="floating-card-text">
+            <h4>Chef's Specials</h4>
+            <p>Authentic spices & herbs</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="category-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Explore Cuisine</span>
+        <h2 class="section-title">Popular Categories</h2>
+        <p class="section-subtitle">Pick from our curated categories crafted with authentic flavors.</p>
+      </div>
+
+      <div class="category-grid">
+        <div class="category-card" data-category="Indian">
+          <span class="cat-icon">🍛</span>
+          <span class="cat-name">Indian</span>
+        </div>
+        <div class="category-card" data-category="Pizza">
+          <span class="cat-icon">🍕</span>
+          <span class="cat-name">Pizza</span>
+        </div>
+        <div class="category-card" data-category="Burgers">
+          <span class="cat-icon">🍔</span>
+          <span class="cat-name">Burgers</span>
+        </div>
+        <div class="category-card" data-category="Chinese">
+          <span class="cat-icon">🍜</span>
+          <span class="cat-name">Chinese</span>
+        </div>
+        <div class="category-card" data-category="South Indian">
+          <span class="cat-icon">🥞</span>
+          <span class="cat-name">South Indian</span>
+        </div>
+        <div class="category-card" data-category="Desserts">
+          <span class="cat-icon">🍰</span>
+          <span class="cat-name">Desserts</span>
+        </div>
+        <div class="category-card" data-category="Beverages">
+          <span class="cat-icon">🥤</span>
+          <span class="cat-name">Beverages</span>
+        </div>
+        <div class="category-card" data-category="Healthy Food">
+          <span class="cat-icon">🥗</span>
+          <span class="cat-name">Healthy Food</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="dishes-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Chef's Choice</span>
+        <h2 class="section-title">Featured Delicacies</h2>
+        <p class="section-subtitle">Our top ordered and most loved customer favorites right now.</p>
+      </div>
+
+      <div class="dishes-grid" id="featured-dishes-grid">
+       
+      </div>
+
+      <div style="text-align: center; margin-top: 40px;">
+        <a href="menu.html" class="btn btn-outline" style="padding: 14px 32px; font-size: 1.05rem;">
+          View Full Menu & All Dishes →
+        </a>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="container">
+    <div class="promo-banner">
+      <div class="promo-content">
+        <h3>🎉 Get Free Delivery on Orders Over ₹500!</h3>
+        <p>No coupon required. Simply add your favorite items and enjoy free doorstep delivery.</p>
+        <span class="promo-code">OFFER APPLIED AUTOMATICALLY AT CHECKOUT</span>
+      </div>
+      <div>
+        <a href="menu.html" class="btn btn-primary" style="white-space: nowrap;">Order Now</a>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="features-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Why TasteHub</span>
+        <h2 class="section-title">The TasteHub Promise</h2>
+        <p class="section-subtitle">We guarantee exceptional quality, safety, and hygiene in every bite.</p>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">🌿</div>
+          <h4>100% Fresh Ingredients</h4>
+          <p>We source local, fresh veggies and premium spices daily to maintain pure authentic flavors.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">⚡</div>
+          <h4>Super Fast Delivery</h4>
+          <p>Piping hot food delivered straight to your door in 30 to 45 minutes guaranteed.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">👨‍🍳</div>
+          <h4>Master Chefs</h4>
+          <p>Each cuisine is prepared by experienced chefs specialized in authentic regional cooking.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">💵</div>
+          <h4>Easy Cash on Delivery</h4>
+          <p>Enjoy hassle-free food ordering. Inspect your package and pay cash right at your doorstep.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="testimonials-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Reviews</span>
+        <h2 class="section-title">What Foodies Say</h2>
+        <p class="section-subtitle">Read feedback from our happy students and food enthusiasts.</p>
+      </div>
+
+      <div class="testimonials-grid">
+        <div class="testimonial-card">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">
+            "TasteHub's Butter Chicken and Garlic Naan is out of this world! Perfect meal after long college lectures. Food was still steaming hot."
+          </p>
+          <div class="testimonial-user">
+            <div class="testimonial-avatar">A</div>
+            <div class="testimonial-info">
+              <h5>Aarav Sharma</h5>
+              <p>Engineering Student</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">
+            "The Masala Dosa was so crispy and the coconut chutney was super fresh. Simple checkout and cash on delivery makes ordering effortless."
+          </p>
+          <div class="testimonial-user">
+            <div class="testimonial-avatar">P</div>
+            <div class="testimonial-info">
+              <h5>Priya Patel</h5>
+              <p>Campus Resident</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">
+            "Hands down the best Peri-Peri pizza and Mango Lassi in town! Fast delivery, great portion sizes, and fair rupee pricing."
+          </p>
+          <div class="testimonial-user">
+            <div class="testimonial-avatar">R</div>
+            <div class="testimonial-info">
+              <h5>Rohan Verma</h5>
+              <p>Food Blogger</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <div class="footer-logo">
+            <span>🍲</span>
+            <span>Taste<span style="color: var(--primary);">Hub</span></span>
+          </div>
+          <p class="footer-desc">
+            Your neighborhood favorite online food ordering destination. Good food, great mood, delivered straight to your doorstep.
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h4>Quick Links</h4>
+          <ul class="footer-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="menu.html">Full Menu</a></li>
+            <li><a href="cart.html">Shopping Cart</a></li>
+            <li><a href="orders.html">My Orders</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Top Cuisines</h4>
+          <ul class="footer-links">
+            <li><a href="menu.html?category=Indian">North Indian</a></li>
+            <li><a href="menu.html?category=Pizza">Italian Pizza</a></li>
+            <li><a href="menu.html?category=South%20Indian">South Indian</a></li>
+            <li><a href="menu.html?category=Chinese">Indo-Chinese</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Contact & Hours</h4>
+          <ul class="footer-contact">
+            <li>📍 123 College Road, Campus Town</li>
+            <li>📞 +91 98765 43210</li>
+            <li>✉️ support@tastehub.com</li>
+            <li>⏰ Open Daily: 10:00 AM – 11:30 PM</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>© 2026 TasteHub. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/config.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

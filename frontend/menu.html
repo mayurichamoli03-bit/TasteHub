@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Menu — TasteHub Food Ordering</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍔</text></svg>">
+</head>
+<body>
+
+  <header class="header">
+    <div class="container">
+      <a href="index.html" class="brand-logo">
+        <span class="logo-icon">🍲</span>
+        <span>Taste<span class="accent">Hub</span></span>
+      </a>
+
+      <nav class="nav-links" id="nav-links">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="menu.html" class="nav-link active">Menu</a>
+        <a href="orders.html" class="nav-link">My Orders</a>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="cart.html" class="cart-btn-link" title="Shopping Cart">
+          <span>🛒</span>
+          <span class="cart-text">Cart</span>
+          <span class="cart-badge" style="display: none;">0</span>
+        </a>
+
+        <div id="nav-auth-container" class="nav-auth-wrap">
+          <a href="login.html" class="nav-link auth-link">Login</a>
+          <a href="signup.html" class="btn btn-primary btn-sm">Sign Up</a>
+        </div>
+
+        <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle navigation menu">
+          ☰
+        </button>
+      </div>
+    </div>
+  </header>
+
+ 
+  <div class="page-hero">
+    <div class="container">
+      <h1>Explore Our Delicious Menu</h1>
+      <p>Handmade recipes prepared fresh with top quality ingredients.</p>
+    </div>
+  </div>
+
+  <main class="main-content">
+    <div class="container">
+      
+  
+      <div class="menu-controls">
+      
+        <div class="menu-search-row">
+          <div class="search-input-wrap">
+            <span class="search-icon">🔍</span>
+            <input 
+              type="text" 
+              id="menu-search-input" 
+              placeholder="Search dishes by name (e.g. Biryani, Pizza, Noodles, Burger)..." 
+              autocomplete="off"
+            />
+          </div>
+          <button id="search-clear-btn" class="btn btn-outline-light" style="color: var(--text-dark); border-color: var(--border-color);">
+            Clear
+          </button>
+        </div>
+
+       
+        <div class="category-filter-pills" id="category-filter-pills">
+          <button class="filter-pill active" data-category="All">All Dishes</button>
+          <button class="filter-pill" data-category="Indian">🍛 Indian</button>
+          <button class="filter-pill" data-category="Pizza">🍕 Pizza</button>
+          <button class="filter-pill" data-category="Burgers">🍔 Burgers</button>
+          <button class="filter-pill" data-category="Chinese">🍜 Chinese</button>
+          <button class="filter-pill" data-category="South Indian">🥞 South Indian</button>
+          <button class="filter-pill" data-category="Desserts">🍰 Desserts</button>
+          <button class="filter-pill" data-category="Beverages">🥤 Beverages</button>
+          <button class="filter-pill" data-category="Healthy Food">🥗 Healthy Food</button>
+        </div>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+        <span id="results-count" style="font-weight: 600; color: var(--text-muted);">
+          Loading dishes...
+        </span>
+      </div>
+
+
+      <div class="dishes-grid" id="menu-dishes-grid">
+      
+      </div>
+
+    </div>
+  </main>
+
+ 
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <div class="footer-logo">
+            <span>🍲</span>
+            <span>Taste<span style="color: var(--primary);">Hub</span></span>
+          </div>
+          <p class="footer-desc">
+            Your neighborhood favorite online food ordering destination. Good food, great mood, delivered straight to your doorstep.
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h4>Quick Links</h4>
+          <ul class="footer-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="menu.html">Full Menu</a></li>
+            <li><a href="cart.html">Shopping Cart</a></li>
+            <li><a href="orders.html">My Orders</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Categories</h4>
+          <ul class="footer-links">
+            <li><a href="menu.html?category=Indian">Indian</a></li>
+            <li><a href="menu.html?category=Pizza">Pizza</a></li>
+            <li><a href="menu.html?category=Chinese">Chinese</a></li>
+            <li><a href="menu.html?category=Healthy%20Food">Healthy Food</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Contact Us</h4>
+          <ul class="footer-contact">
+            <li>📍 123 College Road, Campus Town</li>
+            <li>📞 +91 98765 43210</li>
+            <li>✉️ orders@tastehub.com</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>© 2026 TasteHub. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/config.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/menu.js"></script>
+</body>
+</html>

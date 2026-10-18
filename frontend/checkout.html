@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout — TasteHub Food Ordering</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍔</text></svg>">
+</head>
+<body>
+
+  
+  <header class="header">
+    <div class="container">
+      <a href="index.html" class="brand-logo">
+        <span class="logo-icon">🍲</span>
+        <span>Taste<span class="accent">Hub</span></span>
+      </a>
+
+      <nav class="nav-links" id="nav-links">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="menu.html" class="nav-link">Menu</a>
+        <a href="orders.html" class="nav-link">My Orders</a>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="cart.html" class="cart-btn-link" title="Shopping Cart">
+          <span>🛒</span>
+          <span class="cart-text">Cart</span>
+          <span class="cart-badge" style="display: none;">0</span>
+        </a>
+
+        <div id="nav-auth-container" class="nav-auth-wrap">
+          <a href="login.html" class="nav-link auth-link">Login</a>
+          <a href="signup.html" class="btn btn-primary btn-sm">Sign Up</a>
+        </div>
+
+        <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle navigation menu">
+          ☰
+        </button>
+      </div>
+    </div>
+  </header>
+
+ 
+  <div class="page-hero">
+    <div class="container">
+      <h1>Delivery & Checkout</h1>
+      <p>Confirm your address and place your order with Cash on Delivery.</p>
+    </div>
+  </div>
+
+ 
+  <main class="main-content">
+    <div class="container">
+
+      <div class="checkout-layout">
+        <!-- Delivery Address & Payment Form -->
+        <div class="checkout-card">
+          <h2>1. Delivery Address & Contact</h2>
+
+          <div id="checkout-alert" class="alert" style="display: none;"></div>
+
+          <form id="checkout-form">
+            <div class="form-group">
+              <label class="form-label" for="checkout-name">Recipient Name</label>
+              <input 
+                type="text" 
+                id="checkout-name" 
+                class="form-control" 
+                placeholder="Full name of person receiving delivery" 
+                required 
+              />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="checkout-phone">Contact Phone Number (10 digits)</label>
+              <input 
+                type="tel" 
+                id="checkout-phone" 
+                class="form-control" 
+                placeholder="e.g. 9876543210" 
+                pattern="[0-9]{10}"
+                maxlength="10"
+                required 
+              />
+              <small style="color: var(--text-muted); font-size: 0.8rem;">Our delivery partner will call this number upon arrival.</small>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="checkout-address">Complete Delivery Address</label>
+              <textarea 
+                id="checkout-address" 
+                class="form-control" 
+                placeholder="House / Flat No., Hostel / Building Name, Street, Landmark, Pin Code" 
+                required
+              ></textarea>
+            </div>
+
+           
+            <h2 style="margin-top: 30px;">2. Payment Method</h2>
+            
+            <div class="payment-method-box">
+              <div class="payment-method-icon">💵</div>
+              <div class="payment-method-info">
+                <h4>Cash on Delivery (COD)</h4>
+                <p>Pay cash to the delivery partner when your warm food arrives at your door. Simple, transparent, and hassle-free.</p>
+              </div>
+            </div>
+
+            <button type="submit" id="place-order-btn" class="btn btn-primary btn-block" style="padding: 15px; font-size: 1.1rem; margin-top: 20px;">
+              Place Order (Cash on Delivery)
+            </button>
+          </form>
+        </div>
+
+   
+        <div class="checkout-card">
+          <h2>Order Summary</h2>
+          <div id="checkout-items-list" class="order-items-list">
+           
+          </div>
+
+          <div style="border-top: 1px solid #f0ebe1; padding-top: 16px; margin-top: 16px;">
+            <div class="summary-row">
+              <span>Subtotal</span>
+              <span id="checkout-subtotal">₹0</span>
+            </div>
+
+            <div class="summary-row">
+              <span>Delivery Fee</span>
+              <span id="checkout-delivery-fee">₹40</span>
+            </div>
+
+            <div class="summary-row total-row">
+              <span>Total to Pay</span>
+              <span id="checkout-total">₹0</span>
+            </div>
+          </div>
+
+          <div style="margin-top: 20px; padding: 14px; background: #faf7f0; border-radius: var(--radius-sm); font-size: 0.86rem; color: var(--text-muted);">
+            ⚡ <strong>Estimated Delivery:</strong> 30–45 mins after order confirmation.
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-bottom" style="border-top: none; padding-top: 0;">
+        <p>© 2026 TasteHub. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+
+  <script src="js/config.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/checkout.js"></script>
+</body>
+</html>
