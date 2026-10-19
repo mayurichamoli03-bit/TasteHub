@@ -6,9 +6,9 @@ const User = require('../models/User');
 const auth = require('../middleware/auth');
 
 
-const generateToken = (userId, email) => {
+const generateToken = (userId, email, role = 'user') => {
   const secret = process.env.JWT_SECRET || 'tastehub_default_secret_key';
-  return jwt.sign({ userId, email }, secret, { expiresIn: '7d' });
+  return jwt.sign({ userId, email, role }, secret, { expiresIn: '7d' });
 };
 
 router.post('/signup', async (req, res) => {
@@ -64,13 +64,14 @@ router.post('/signup', async (req, res) => {
     const newUser = new User({
       name: name.trim(),
       email: normalizedEmail,
-      passwordHash
+      passwordHash,
+      role: 'user'
     });
 
     await newUser.save();
 
   
-    const token = generateToken(newUser._id, newUser.email);
+    const token = generateToken(newUser._id, newUser.email, newUser.role);
 
     return res.status(201).json({
       success: true,
@@ -80,6 +81,7 @@ router.post('/signup', async (req, res) => {
         id: newUser._id,
         name: newUser.name,
         email: newUser.email,
+        role: newUser.role || 'user',
         createdAt: newUser.createdAt
       }
     });
@@ -123,7 +125,7 @@ router.post('/login', async (req, res) => {
       });
     }
 
-    const token = generateToken(user._id, user.email);
+    const token = generateToken(user._id, user.email, user.role);
 
     return res.json({
       success: true,
@@ -133,6 +135,7 @@ router.post('/login', async (req, res) => {
         id: user._id,
         name: user.name,
         email: user.email,
+        role: user.role || 'user',
         createdAt: user.createdAt
       }
     });
@@ -154,6 +157,7 @@ router.get('/me', auth, async (req, res) => {
         id: req.user._id,
         name: req.user.name,
         email: req.user.email,
+        role: req.user.role || 'user',
         createdAt: req.user.createdAt
       }
     });

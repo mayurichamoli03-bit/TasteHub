@@ -216,16 +216,18 @@ const sampleDishes = [
 ];
 
 const seedDatabase = async () => {
-  const mongoUri = process.env.MONGO_URI;
+  const mongoUri = process.env.MONGO_URI || process.env.MONGODB_URI || process.env.MONGO_URL;
 
   if (!mongoUri) {
-    console.error('Error: MONGO_URI is missing in .env file.');
+    console.error('Error: MONGO_URI (or MONGODB_URI) is missing in .env file.');
     process.exit(1);
   }
 
   try {
     console.log('Connecting to MongoDB Atlas...');
-    await mongoose.connect(mongoUri);
+    await mongoose.connect(mongoUri, {
+      dbName: process.env.DB_NAME || 'tastehub'
+    });
     console.log('Connected to MongoDB successfully.');
 
     let insertedCount = 0;

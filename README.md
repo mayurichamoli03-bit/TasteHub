@@ -310,74 +310,67 @@ Follow this test checklist to demonstrate all features:
 
 ---
 
-## 12. Deploying the Express.js Backend (Render)
+## 12. Deploying the Express.js Backend on Vercel (Serverless)
 
-Because standard Express.js servers require a continuous Node.js runtime with port listening, **Render** is the best free hosting platform for the backend:
+TasteHub includes a pre-configured `backend/vercel.json` and `backend/api/index.js` adapter for Vercel serverless execution:
 
-1. Go to [render.com](https://render.com) and sign in with GitHub.
-2. Click **New +** -> **Web Service**.
-3. Select your `tastehub-food-ordering` repository.
-4. Fill in the deployment settings:
-   - **Name:** `tastehub-backend`
-   - **Root Directory:** `backend`
-   - **Environment:** `Node`
-   - **Build Command:** `npm install`
-   - **Start Command:** `node server.js`
-   - **Plan:** Free
-5. Scroll down to **Environment Variables** and add:
-   - `MONGO_URI`: *(Your MongoDB Atlas connection string)*
-   - `JWT_SECRET`: *(A strong secret key, e.g. `tastehub_prod_secret_token_999`)*
-   - `FRONTEND_URL`: `*`
-6. Click **Deploy Web Service**.
-7. Once deployed, Render will provide your public backend URL (e.g. `https://tastehub-backend.onrender.com`).
+1. Go to [vercel.com](https://vercel.com) and log in.
+2. Click **Add New... > Project** and import your `TasteHub` repository.
+3. In the project setup screen:
+   - **Project Name:** `tastehub-backend` (or your choice)
+   - **Root Directory:** Click "Edit" and choose `backend`.
+   - **Framework Preset:** Select **Other**.
+4. Expand **Environment Variables** and add the following:
+   - `MONGO_URI`: `mongodb+srv://<username>:<password>@cluster0.xxxxx.mongodb.net/tastehub?retryWrites=true&w=majority`
+   - `DB_NAME`: `tastehub`
+   - `JWT_SECRET`: `tastehub_prod_jwt_secret_key_2026_secured`
+   - `FRONTEND_URL`: `https://taste-hub-aoz5.vercel.app`
+5. Click **Deploy**.
+6. Once deployed, Vercel gives you your backend deployment URL (e.g. `https://tastehub-backend.vercel.app`).
+7. Test the health check endpoint in your browser:
+   `https://<your-backend-url>/api/health`
+   You should receive:
+   ```json
+   {
+     "success": true,
+     "status": "OK",
+     "message": "TasteHub API Server is up and running!",
+     "database": "connected"
+   }
+   ```
 
 ---
 
-## 13. Deploying the Frontend (Vercel)
+## 13. Deploying the Frontend on Vercel
 
-Vercel is the premier platform for hosting static HTML, CSS, and JavaScript websites:
-
-1. Go to [vercel.com](https://vercel.com) and log in with your GitHub account.
-2. Click **Add New... > Project**.
-3. Import your `tastehub-food-ordering` GitHub repository.
-4. In the project configure screen:
-   - **Root Directory:** Click "Edit" and choose `frontend`.
+1. In [vercel.com](https://vercel.com), click **Add New... > Project** and import your `TasteHub` repository.
+2. In the project setup screen:
+   - **Project Name:** e.g. `taste-hub-aoz5`
+   - **Root Directory:** Click "Edit" and select `frontend`.
    - **Framework Preset:** Select **Other**.
-   - Build and output settings can remain default.
-5. Click **Deploy**.
-6. In a few seconds, your frontend will be live on a URL like `https://tastehub-food-ordering.vercel.app`!
+3. Click **Deploy**.
+4. Your frontend will be live at `https://taste-hub-aoz5.vercel.app`!
 
 ---
 
 ## 14. Connecting Deployed Frontend to Deployed Backend
 
-Once your backend is deployed on Render and your frontend is on Vercel:
-
-1. Open `frontend/js/config.js` in VS Code.
-2. Find the `API_BASE_URL` property:
+1. Open [frontend/js/config.js](file:///c:/Users/mayur/.gemini/antigravity/scratch/TasteHub/frontend/js/config.js).
+2. Update `PROD_BACKEND_URL` with your deployed Vercel backend URL:
    ```javascript
-   const CONFIG = {
-     API_BASE_URL: (() => {
-       if (
-         window.location.hostname === 'localhost' ||
-         window.location.hostname === '127.0.0.1' ||
-         window.location.protocol === 'file:'
-       ) {
-         return 'http://localhost:5000/api';
-       }
-       // Replace this URL with your actual deployed Render backend URL:
-       return 'https://tastehub-backend.onrender.com/api';
-     })(),
-     ...
-   };
+   const PROD_BACKEND_URL = 'https://<your-backend-project>.vercel.app/api';
    ```
-3. Commit and push the updated `frontend/js/config.js` to GitHub:
+3. Commit and push the changes:
    ```powershell
    git add frontend/js/config.js
-   git commit -m "Update production API URL"
+   git commit -m "Configure production backend URL"
    git push origin main
    ```
-4. Vercel will automatically re-deploy your frontend. Now your online website communicates directly with your cloud database!
+4. *(Optional Testing Shortcut)*: You can also instantly test any backend deployment URL in your browser console without redeploying:
+   ```javascript
+   localStorage.setItem('tastehub_api_base_url', 'https://<your-backend-url>/api');
+   location.reload();
+   ```
 
 ---
 
@@ -385,10 +378,12 @@ Once your backend is deployed on Render and your frontend is on Vercel:
 
 | Issue | Likely Cause | Solution |
 | :--- | :--- | :--- |
-| **"Cannot connect to MongoDB"** | IP address not whitelisted in Atlas or invalid password | In MongoDB Atlas, go to **Network Access** and verify `0.0.0.0/0` (allow all) is active. Ensure `<password>` in `backend/.env` has no special characters causing URL encoding issues. |
-| **"CORS error in browser console"** | Backend blocking frontend origin | In `backend/.env`, set `FRONTEND_URL=*` and restart the backend. |
-| **"Cart is empty after refresh"** | Browser cookies/storage disabled | Ensure browser localStorage is enabled and not running in extreme incognito mode that blocks storage. |
-| **"jwt malformed / unauthorized"** | Token expired or secret mismatch | Log out via the header button and log back in to generate a fresh JWT token. |
+| **"Database disconnected — database temporarily unavailable (503)"** | 1. Atlas IP whitelist missing `0.0.0.0/0`<br>2. `MONGO_URI` missing in Vercel project environment variables<br>3. Incorrect DB user password in Atlas | In MongoDB Atlas -> **Network Access**, add `0.0.0.0/0` (Allow from Anywhere). Verify `MONGO_URI` in Vercel Project Settings -> Environment Variables. |
+| **"CORS error in browser console"** | Backend blocking frontend domain | `backend/server.js` automatically allows `https://taste-hub-aoz5.vercel.app`. For custom domains, add them to `FRONTEND_URL` in backend env variables. |
+| **"Unable to reach TasteHub Kitchen"** | Frontend pointing to wrong backend URL | Check `PROD_BACKEND_URL` in `frontend/js/config.js` or set `tastehub_api_base_url` in localStorage. |
+| **"Cannot connect to MongoDB"** | IP address not whitelisted in Atlas or invalid password | In MongoDB Atlas, go to **Network Access** and verify `0.0.0.0/0` (allow all) is active. Ensure password has no unencoded special characters. |
+| **"Cart is empty after refresh"** | Browser cookies/storage disabled | Ensure browser localStorage is enabled. |
+| **"jwt malformed / unauthorized"** | Token expired or secret mismatch | Click **Logout** in top nav and sign in again. |
 | **"Port 5000 already in use"** | Another process is using port 5000 | Change `PORT=5001` in `backend/.env` and adjust the local URL in `frontend/js/config.js`. |
 
 ---

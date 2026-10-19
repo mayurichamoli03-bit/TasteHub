@@ -22,7 +22,9 @@ const dishSchema = new mongoose.Schema({
       'South Indian',
       'Desserts',
       'Beverages',
-      'Healthy Food'
+      'Healthy Food',
+      'Biryani',
+      'Snacks'
     ]
   },
   price: {

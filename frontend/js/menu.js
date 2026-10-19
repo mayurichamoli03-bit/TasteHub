@@ -144,7 +144,7 @@ async function fetchDishes() {
       <div class="empty-state" style="grid-column: 1 / -1;">
         <div class="empty-state-icon">⚠️</div>
         <h3>Unable to load menu</h3>
-        <p>Could not reach the TasteHub API. Please try again in a moment.</p>
+        <p>${escapeHtml(err.message || 'Could not reach the TasteHub API. Please try again in a moment.')}</p>
         <button class="btn btn-primary" onclick="fetchDishes()">Retry Connection</button>
       </div>
     `;

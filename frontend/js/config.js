@@ -1,23 +1,46 @@
-const CONFIG = {
-  API_BASE_URL: (() => {
-    if (
-      window.location.hostname === 'localhost' ||
-      window.location.hostname === '127.0.0.1' ||
-      window.location.protocol === 'file:'
-    ) {
-      return 'http://localhost:5000/api';
-    }
-    return 'https://taste-hub-aoz5.vercel.app/api';
-  })(),
+// Configurable Production Backend URL:
+// Update this if your backend is deployed at a separate Vercel domain (e.g. 'https://tastehub-backend.vercel.app/api')
+const PROD_BACKEND_URL = 'https://taste-hub-aoz5.vercel.app/api';
 
+function getApiBaseUrl() {
+  // 1. Allow runtime override from browser console or localStorage (useful for testing & switching deployments)
+  if (typeof localStorage !== 'undefined') {
+    const override = localStorage.getItem('tastehub_api_base_url');
+    if (override && override.trim()) {
+      return override.trim().replace(/\/+$/, '');
+    }
+  }
+  if (typeof window !== 'undefined' && window.__TASTEHUB_API_URL__) {
+    return window.__TASTEHUB_API_URL__.trim().replace(/\/+$/, '');
+  }
+
+  // 2. Local development environment
+  if (
+    typeof window !== 'undefined' &&
+    (window.location.hostname === 'localhost' ||
+      window.location.hostname === '127.0.0.1' ||
+      window.location.protocol === 'file:')
+  ) {
+    return 'http://localhost:5000/api';
+  }
+
+  // 3. Deployed production backend URL
+  return PROD_BACKEND_URL.replace(/\/+$/, '');
+}
+
+const CONFIG = {
+  get API_BASE_URL() {
+    return getApiBaseUrl();
+  },
+  getApiUrl() {
+    return getApiBaseUrl();
+  },
 
   DEFAULT_FOOD_IMAGE: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=600&q=80',
-
 
   CURRENCY: '₹',
   DELIVERY_FEE: 40,
   FREE_DELIVERY_THRESHOLD: 500,
-
 
   STORAGE_KEYS: {
     TOKEN: 'tastehub_token',
@@ -26,22 +49,69 @@ const CONFIG = {
   }
 };
 
-
-
-async function fetchJson(url, options) {
-  const response = await fetch(url, options);
-  const text = await response.text();
-  let data = {};
-  if (text) {
-    try {
-      data = JSON.parse(text);
-    } catch (e) {
-      data = { success: false, message: 'Server error. Please try again.' };
+/**
+ * Robust JSON fetch wrapper with network resilience, CORS protection, and graceful error messages
+ */
+async function fetchJson(url, options = {}) {
+  try {
+    const defaultHeaders = {
+      'Accept': 'application/json'
+    };
+    if (options.body && typeof options.body === 'string' && (!options.headers || !options.headers['Content-Type'])) {
+      defaultHeaders['Content-Type'] = 'application/json';
     }
-  } else if (!response.ok) {
-    data = { success: false, message: 'Server error. Please try again.' };
+
+    const mergedOptions = {
+      ...options,
+      headers: {
+        ...defaultHeaders,
+        ...(options.headers || {})
+      }
+    };
+
+    const response = await fetch(url, mergedOptions);
+    const contentType = response.headers.get('content-type') || '';
+    let data = {};
+
+    if (contentType.includes('application/json')) {
+      try {
+        data = await response.json();
+      } catch (err) {
+        data = { success: false, message: 'Invalid JSON response from server.' };
+      }
+    } else {
+      const text = await response.text();
+      if (text) {
+        try {
+          data = JSON.parse(text);
+        } catch (e) {
+          data = {
+            success: false,
+            message: response.status === 503
+              ? 'Database is temporarily unavailable (503). Please verify database configuration.'
+              : `Server error (${response.status}).`
+          };
+        }
+      } else {
+        data = { success: false, message: response.statusText || 'Empty response from server.' };
+      }
+    }
+
+    return { response, data };
+  } catch (networkError) {
+    console.error(`[API Network Error] Could not reach ${url}:`, networkError);
+    return {
+      response: {
+        ok: false,
+        status: 0,
+        statusText: 'Network Error'
+      },
+      data: {
+        success: false,
+        message: 'Could not connect to TasteHub server. Please verify the backend URL and network connection.'
+      }
+    };
   }
-  return { response, data };
 }
 
 function getToken() {

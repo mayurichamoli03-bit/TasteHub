@@ -88,12 +88,25 @@ async function loadFeaturedDishes() {
 
     const { response, data } = await fetchJson(`${CONFIG.API_BASE_URL}/dishes`);
 
-    if (!response.ok || !data.success || !data.dishes || data.dishes.length === 0) {
+    if (!response.ok || !data.success) {
+      const is503 = response.status === 503;
+      container.innerHTML = `
+        <div class="empty-state" style="grid-column: 1 / -1;">
+          <div class="empty-state-icon">${is503 ? '⚠️' : '📡'}</div>
+          <h3>${is503 ? 'Database Temporarily Unavailable (503)' : 'Unable to reach TasteHub Kitchen'}</h3>
+          <p>${escapeHtml(data.message || 'Please check backend server and database connection.')}</p>
+          <button class="btn btn-primary" onclick="loadFeaturedDishes()" style="margin-top: 12px;">Retry Connection</button>
+        </div>
+      `;
+      return;
+    }
+
+    if (!data.dishes || data.dishes.length === 0) {
       container.innerHTML = `
         <div class="empty-state" style="grid-column: 1 / -1;">
           <div class="empty-state-icon">🍽️</div>
           <h3>Dishes are warming up!</h3>
-          <p>Please make sure the backend server is running and database is seeded.</p>
+          <p>No dishes found in the database yet. Run the database seed script to populate the menu.</p>
           <a href="menu.html" class="btn btn-primary">Go to Full Menu</a>
         </div>
       `;
@@ -104,7 +117,6 @@ async function loadFeaturedDishes() {
 
     container.innerHTML = featured.map(dish => createDishCardHTML(dish)).join('');
 
-   
     attachAddToCartListeners(container, featured);
   } catch (err) {
     console.error('Failed to load featured dishes:', err);
@@ -112,8 +124,8 @@ async function loadFeaturedDishes() {
       <div class="empty-state" style="grid-column: 1 / -1;">
         <div class="empty-state-icon">📡</div>
         <h3>Unable to reach TasteHub Kitchen</h3>
-        <p>Could not reach the TasteHub API. Please try again in a moment.</p>
-        <a href="menu.html" class="btn btn-outline">Check Full Menu</a>
+        <p>${escapeHtml(err.message || 'Could not reach the TasteHub API. Please try again in a moment.')}</p>
+        <button class="btn btn-primary" onclick="loadFeaturedDishes()" style="margin-top: 12px;">Retry Connection</button>
       </div>
     `;
   }
