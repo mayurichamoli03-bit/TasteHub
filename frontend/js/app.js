@@ -73,9 +73,7 @@ function initHomepage() {
   loadFeaturedDishes();
 }
 
-/**
- * Load Featured Dishes on Homepage from Backend API
- */
+
 async function loadFeaturedDishes() {
   const container = document.getElementById('featured-dishes-grid');
   if (!container) return;
@@ -88,8 +86,7 @@ async function loadFeaturedDishes() {
       </div>
     `;
 
-    const response = await fetch(`${CONFIG.API_BASE_URL}/dishes`);
-    const data = await response.json();
+    const { response, data } = await fetchJson(`${CONFIG.API_BASE_URL}/dishes`);
 
     if (!response.ok || !data.success || !data.dishes || data.dishes.length === 0) {
       container.innerHTML = `
@@ -115,7 +112,7 @@ async function loadFeaturedDishes() {
       <div class="empty-state" style="grid-column: 1 / -1;">
         <div class="empty-state-icon">📡</div>
         <h3>Unable to reach TasteHub Kitchen</h3>
-        <p>Make sure the backend is running at <code>http://localhost:5000</code>.</p>
+        <p>Could not reach the TasteHub API. Please try again in a moment.</p>
         <a href="menu.html" class="btn btn-outline">Check Full Menu</a>
       </div>
     `;

@@ -1,8 +1,5 @@
-
 const CONFIG = {
-
   API_BASE_URL: (() => {
-   
     if (
       window.location.hostname === 'localhost' ||
       window.location.hostname === '127.0.0.1' ||
@@ -10,8 +7,7 @@ const CONFIG = {
     ) {
       return 'http://localhost:5000/api';
     }
-    
-    return 'https://tastehub-backend.onrender.com/api';
+    return 'https://taste-hub-aoz5.vercel.app/api';
   })(),
 
 
@@ -31,6 +27,22 @@ const CONFIG = {
 };
 
 
+
+async function fetchJson(url, options) {
+  const response = await fetch(url, options);
+  const text = await response.text();
+  let data = {};
+  if (text) {
+    try {
+      data = JSON.parse(text);
+    } catch (e) {
+      data = { success: false, message: 'Server error. Please try again.' };
+    }
+  } else if (!response.ok) {
+    data = { success: false, message: 'Server error. Please try again.' };
+  }
+  return { response, data };
+}
 
 function getToken() {
   return localStorage.getItem(CONFIG.STORAGE_KEYS.TOKEN);

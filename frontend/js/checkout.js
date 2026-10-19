@@ -116,7 +116,7 @@ async function handlePlaceOrder(e) {
 
   try {
     const token = getToken();
-    const response = await fetch(`${CONFIG.API_BASE_URL}/orders`, {
+    const { response, data } = await fetchJson(`${CONFIG.API_BASE_URL}/orders`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -128,8 +128,6 @@ async function handlePlaceOrder(e) {
         phone
       })
     });
-
-    const data = await response.json();
 
     if (!response.ok || !data.success) {
       throw new Error(data.message || 'Failed to place order. Please try again.');

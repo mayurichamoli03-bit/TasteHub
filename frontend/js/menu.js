@@ -111,8 +111,7 @@ async function fetchDishes() {
     }
 
     const apiUrl = `${CONFIG.API_BASE_URL}/dishes?${queryParams.toString()}`;
-    const response = await fetch(apiUrl);
-    const data = await response.json();
+    const { response, data } = await fetchJson(apiUrl);
 
     if (!response.ok || !data.success) {
       throw new Error(data.message || 'Failed to load dishes');
@@ -145,7 +144,7 @@ async function fetchDishes() {
       <div class="empty-state" style="grid-column: 1 / -1;">
         <div class="empty-state-icon">⚠️</div>
         <h3>Unable to load menu</h3>
-        <p>Could not connect to the backend server. Please check that Node.js backend is running at <code>http://localhost:5000</code>.</p>
+        <p>Could not reach the TasteHub API. Please try again in a moment.</p>
         <button class="btn btn-primary" onclick="fetchDishes()">Retry Connection</button>
       </div>
     `;

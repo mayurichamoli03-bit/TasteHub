@@ -28,13 +28,11 @@ async function fetchCustomerOrders() {
     `;
 
     const token = getToken();
-    const response = await fetch(`${CONFIG.API_BASE_URL}/orders/my-orders`, {
+    const { response, data } = await fetchJson(`${CONFIG.API_BASE_URL}/orders/my-orders`, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
     });
-
-    const data = await response.json();
 
     if (!response.ok || !data.success) {
       if (response.status === 401) {
